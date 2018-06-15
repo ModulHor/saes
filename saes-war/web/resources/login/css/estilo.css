@@ -1,0 +1,75 @@
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    font-size:13px;
+    overflow-x: hidden;
+    overflow-y: auto;
+	background: radial-gradient(circle, #F3DEEC, #fff); /*#ff1670*/
+   /* background: #F3DEEC; #F3CEE6; #ecf0f5;*/
+	 /* background: #cc3367;*/
+  /*background-position: center center;
+  background: radial-gradient(circle, #ff1670, #fff); /*#ff1670*/
+  /*text-align: center;
+  font-family: 'Roboto', sans-serif;*/
+}
+
+.ui-widget {
+    font-size: 10.5px; 
+}
+/*
+ * Page: Login & Register
+ * ----------------------
+ */
+.login-logo,
+.register-logo {
+    font-size: 35px;
+    text-align: center; 
+    margin-bottom: 25px; 
+    font-weight: 300;
+    
+}
+.login-logo a,
+.register-logo a {
+    color: #444;
+}
+.login-page,
+.register-page {
+    background: #d2d6de;
+    
+}
+.login-box,
+.register-box {
+    width: 340px;
+    margin: 7% auto;
+    
+}
+@media (max-width: 768px) { 
+    .login-box,
+    .register-box {
+        width: 90%; 
+        margin-top: 20px;
+        width: 100%;
+  position: relative;  
+        
+    }
+}
+.login-box-body,
+.register-box-body { 
+    background: #FFF7FC;/* #FAF2F7;#fff;*/
+    padding: 10px;
+    color: #444;
+    border-top: 0;
+    color: #666;
+}
+.login-box-body .form-control-feedback,
+.register-box-body .form-control-feedback {
+    color: #777;
+}
+.login-box-msg,
+.register-box-msg {
+    margin: 0;
+    text-align: center;
+    padding: 0 20px 20px 20px;    
+}

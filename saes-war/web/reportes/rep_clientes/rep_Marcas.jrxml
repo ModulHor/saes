@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rep_datos_clientes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dbaf7ea3-687b-4738-bd10-b8072ff41895">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select ci_dni_sacli, nombres_sacli, apellidos_sacli, telefono_sacli, celular_sacli, direccion_sacli from saes_cliente order by apellidos_sacli]]>
+	</queryString>
+	<field name="ci_dni_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo contendra la cedula del cliente]]></fieldDescription>
+	</field>
+	<field name="nombres_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[En este campo se registra los nombre del cliente.]]></fieldDescription>
+	</field>
+	<field name="apellidos_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[En este campo se registra los apellidos del cliente]]></fieldDescription>
+	</field>
+	<field name="telefono_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo registra el telefono convencional de los clientes.]]></fieldDescription>
+	</field>
+	<field name="celular_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo registra el telefono celular de cada uno de los clientes.]]></fieldDescription>
+	</field>
+	<field name="direccion_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo registra la direccion de cada uno de los clientes.]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="48" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ffeb4a6b-49dc-44f6-922c-c1fd783e0855" x="234" y="12" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[CLIENTES]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="15" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="a5d14703-9991-4138-a88b-0c5213628329" x="0" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[CEDULA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fcb67411-30d3-4618-9218-f922397f14dc" x="92" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[NOMBRES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="38b3e5cb-d6bd-41dd-a987-9a6a6f39f028" x="184" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[APELLIDOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="859f885b-3b4e-466f-a4f4-4f44e5cbbd70" x="276" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[TELEFONO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b82028a9-5f31-4b4a-9659-ca0772a8f3b4" x="368" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[CELULAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b5e72d6-5a06-4cf5-9b8a-4ff93d6b6476" x="460" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[DIRECCION]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement uuid="44aceb2c-92c7-45e2-87a4-e2775655f630" x="0" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ci_dni_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="89ecc370-04c8-43f6-8929-eb78f8c25856" x="92" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombres_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="716a0735-7656-46ee-9727-7d10d6050895" x="184" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{apellidos_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="83ebd445-5e0e-47fc-befc-47723474a1c1" x="276" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{telefono_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e320a48c-9a20-4ce8-810a-90beecd8912c" x="368" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{celular_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9c7bfd29-8f4a-4a2a-ab5b-bdee672d1373" x="460" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{direccion_sacli}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

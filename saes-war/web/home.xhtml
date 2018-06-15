@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>SAES</title>
+    </h:head>     
+    <script type="text/javascript" src="resources/sistema/sistema.js"/>
+    <link rel="stylesheet" type="text/css" href="resources/components/bootstrap/dist/css/bootstrap.min.css"/>    
+	<link rel="stylesheet" type="text/css" href="resources/login/css/home.css"/>
+    <h:body  onload="abrirPopUp('login.jsf');">
+        <p:growl autoUpdate="true" showDetail="true" sticky="true"/>  
+        <div class="site-wrapper">
+            <div class="site-wrapper-inner">
+            <div align="center">
+                <img src="imagenes/Master_index_izquierda.jpg" alt=""/>
+                <img src="imagenes/Master_index_centro.jpg" alt=""/>
+                <img src="imagenes/Master_index_derecha.jpg" alt=""/>
+            </div>
+            <br></br>
+            <br></br>
+            <div align="center">
+                <h1>Por favor presione el botón.</h1>
+                <br></br>
+                <p>
+                    <a onclick="abrirPopUp('login.jsf');" class="btn btn-lg btn-success">Abrir Sistema</a>
+                </p>
+            </div>
+            <br></br>
+            <br></br>
+            </div>
+         </div>
+    </h:body>
+</html>
+

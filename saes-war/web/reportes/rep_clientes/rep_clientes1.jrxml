@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rep_clientes1" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="883e5c6e-5e4b-47ed-9036-81c36d7e9d02">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.1"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<queryString>
+		<![CDATA[SELECT CI_DNI_SACLI, APELLIDOS_SACLI,NOMBRES_SACLI, DIRECCION_SACLI, TELEFONO_SACLI, CELULAR_SACLI, CORREO_SACLI, (select LOGO_EMPR from SIS_EMPRESA) as logo FROM SAES_CLIENTE ORDER BY APELLIDOS_SACLI]]>
+	</queryString>
+	<field name="ci_dni_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo contendra la cedula del cliente]]></fieldDescription>
+	</field>
+	<field name="apellidos_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[En este campo se registra los apellidos del cliente]]></fieldDescription>
+	</field>
+	<field name="nombres_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[En este campo se registra los nombre del cliente.]]></fieldDescription>
+	</field>
+	<field name="direccion_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo registra la direccion de cada uno de los clientes.]]></fieldDescription>
+	</field>
+	<field name="telefono_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo registra el telefono convencional de los clientes.]]></fieldDescription>
+	</field>
+	<field name="celular_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo registra el telefono celular de cada uno de los clientes.]]></fieldDescription>
+	</field>
+	<field name="correo_sacli" class="java.lang.String">
+		<fieldDescription><![CDATA[Este campo registra el correo de cada uno de los clientes.]]></fieldDescription>
+	</field>
+	<field name="logo" class="java.lang.Object"/>
+	<variable name="SUM_REPORT_COUNT_1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<line>
+				<reportElement key="line" x="0" y="-47" width="534" height="1" uuid="6ee8d8a2-c309-4cb4-ba11-54b411a5b666"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="92" splitType="Stretch">
+			<rectangle>
+				<reportElement key="rectangle-1" x="0" y="62" width="534" height="25" backcolor="#CCCCFF" uuid="5f8ec4e1-0950-440d-ab1e-719ca5151c37"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText-1" x="74" y="29" width="348" height="14" uuid="8852f600-ceb2-4661-a710-3e082ec84f41"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-2" x="71" y="7" width="355" height="19" uuid="8105bad7-e143-4f2f-acf5-3eb6c0a6d026"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ESTEFY´S STUDIO NAILS & SPA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" x="144" y="44" width="216" height="13" uuid="725fc5fc-e2ad-44e7-a102-f88f73498501"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Datos Generales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="67" width="63" height="20" uuid="126bbc5f-15af-4c27-a7c7-4dab943a8a8e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CEDULA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="67" width="78" height="20" uuid="847afa7b-77c6-4739-933c-02893d01a1e2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="67" width="76" height="20" uuid="a126048e-92da-40dc-b4ce-b09c71389136"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="67" width="86" height="20" uuid="7dae30da-6e8f-436e-b029-34c80e958dae"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="67" width="76" height="20" uuid="b7839d4e-2f3f-47bf-8bd8-5913553998e6"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELÉFONO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="67" width="66" height="20" uuid="3cf86a58-f004-4187-963d-9a8a5b2cb978"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CELULAR]]></text>
+			</staticText>
+			<image>
+				<reportElement x="7" y="-3" width="136" height="55" uuid="dd508706-9a7d-457a-b555-f93e2748b2af"/>
+				<imageExpression><![CDATA["C:\\Users\\Andres\\Desktop\\PROYECTOS\\Codigo_Saes\\saes\\saes-war\\web\\upload\\logo_saes_2.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement key="line-1" x="0" y="14" width="535" height="1" uuid="4b6cabb5-6247-4697-8fe0-5bc2f602fa1c"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="76" height="20" uuid="2bdba634-25d8-4e33-ac00-44130b31efe6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ci_dni_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="0" width="76" height="20" uuid="2afa3cc0-97cc-40ef-b6e0-8bb673b49fc0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellidos_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="0" width="76" height="20" uuid="5ec56d21-e7fa-4c97-b05c-f631a07e2675"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombres_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="86" height="20" uuid="7f2af451-c453-4f36-abb7-1f686169aea6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="0" width="76" height="20" uuid="b334ea2a-5a36-4c1d-bcf6-e4ad84d016c6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="0" width="76" height="20" uuid="fb27f737-d29b-48a9-b004-ba4f3d14f3c7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{celular_sacli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="0" width="106" height="20" uuid="edf85b97-0cc1-4b56-9d97-76cf5db2a2b3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{correo_sacli}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="290" y="4" width="205" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="37c13a55-db94-43ef-a4e6-4dfbebeb7259"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="499" y="4" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="84141a01-e1cd-4c14-a6e6-778181c8cc04"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line" x="0" y="3" width="535" height="1" uuid="0e4c910b-8058-4f1d-91e2-3e5e8e3841fa"/>
+			</line>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="1" y="6" width="209" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="40b39a23-c6e3-45b1-a16e-875df4aba0ad"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
