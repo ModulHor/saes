@@ -324,6 +324,7 @@ public class RegistroVentas extends Pantalla {
     public void abrirDialogoCita(){
         if(com_tipo_documento.getValue() == null){
             utilitario.agregarMensajeError("ERROR", "Seleccione el Tipo de Documento");
+            System.out.print("HOLA SI SUBI EL CAMBIO");
         return;
         } else {
         dia_periodo.dibujar();
