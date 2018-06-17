@@ -83,12 +83,18 @@ public class Servicios extends Pantalla {
         else if (tab_precio_servicio.isFocus()){
         tab_precio_servicio.guardar();
         }*/
-       if (tab_servicios.getValor("porcentaje_saser").equals(v_cincuenta) || tab_servicios.getValor("porcentaje_saser").equals(v_cuarenta)){
+     //  if (tab_servicios.getValor("porcentaje_saser") != null){
+            if (tab_servicios.getValor("porcentaje_saser").equals(v_cincuenta) || tab_servicios.getValor("porcentaje_saser").equals(v_cuarenta)){
            tab_servicios.guardar();
            guardarPantalla();;
-       }else {
-           utilitario.agregarMensajeError("No se puede guardar", "El porcentaje debe ser de 40 o 50");
        }
+       else {
+           utilitario.agregarMensajeError("No se puede guardar", "Ingrese el porcentaje de pago del servicio de 40 o 50");
+       }
+       /*}
+       else {
+           utilitario.agregarMensajeError("No se puede guardar", "Ingrese el porcentaje del servicio");
+       }*/
         
     }
 
