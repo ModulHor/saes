@@ -276,6 +276,29 @@ public class ReportesEmleados extends Pantalla{
      else{
             utilitario.agregarMensajeInfo("No se puede continuar", "No ha seleccionado ningun registro");
         }
+     if (rep_reporte.getReporteSelecionado().equals("Ganancias de Empleados Generales")){
+         if(rep_reporte.isVisible()){
+                rep_reporte.cerrar();
+                sel_fechas.dibujar();
+        }
+         else if (sel_fechas.isVisible()){
+                
+                fechai=sel_fechas.getFecha1String();
+                fechaf=sel_fechas.getFecha2String();
+                sel_fechas.cerrar();
+                parametro = new HashMap();
+                parametro.put("pide_fechai",fechai );
+                parametro.put("pide_fechaf", fechaf);
+                sel_rep.setSeleccionFormatoReporte(parametro, rep_reporte.getPath());
+                sel_rep.dibujar(); 
+        }
+         else {
+                    utilitario.agregarMensajeInfo("Debe seleccionar al menos un registro", "");
+                }
+     }
+     else{
+            utilitario.agregarMensajeInfo("No se puede continuar", "No ha seleccionado ningun registro");
+        }
     }
     @Override
     public void insertar() {
