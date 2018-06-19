@@ -22,6 +22,7 @@ import framework.componentes.Tabla;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.event.SelectEvent;
 import paq_citas.ejb.ServiciosCitas;
 import paq_clientes.ejb.ServiciosClientes;
@@ -37,6 +38,7 @@ public class Citas extends Pantalla{
     private Dialogo crear_cliente_dialogo = new Dialogo();
     private Tabla tab_cliente = new Tabla();
     private AutoCompletar aut_valor = new AutoCompletar();
+    private boolean boo_documento_valido = true;
     
     @EJB
     private final ServiciosCitas ser_citas = (ServiciosCitas) utilitario.instanciarEJB(ServiciosCitas.class);
@@ -140,6 +142,8 @@ public class Citas extends Pantalla{
           tab_cliente.getColumna("telefono_sacli").setOrden(7);
           tab_cliente.getColumna("celular_sacli").setOrden(8);
           tab_cliente.getColumna("genero_sacli").setOrden(9);
+          tab_cliente.getColumna("IDE_SATIDEN").setMetodoChange("validar_documento");
+          tab_cliente.getColumna("CI_DNI_SACLI").setMetodoChange("validar_documento");
           
           List lista = new ArrayList();
           Object fila1[] = {
@@ -165,6 +169,23 @@ public class Citas extends Pantalla{
           bot_crearCliente.setMetodo("abrirDialogoCliente");
           bar_botones.agregarBoton(bot_crearCliente);
     }
+    
+    public void validar_documento (AjaxBehaviorEvent evt)
+    {
+        tab_cliente.modificar(evt);
+        String cedula = tab_cliente.getValor("CI_DNI_SACLI");
+        String tipo_documento = tab_cliente.getValor("IDE_SATIDEN");
+        //valido la cedula ide_tipo_documento = 1
+        if (tipo_documento != null && tipo_documento.equalsIgnoreCase("2"))
+        {
+            boo_documento_valido = utilitario.validarCedula(cedula);
+        }
+        //valido el ruc ide_tipo_documento = 2
+        if (tipo_documento != null && tipo_documento.equalsIgnoreCase("5"))
+        {
+            boo_documento_valido = utilitario.validarRUC(cedula);
+        }
+    }
     public void filtroComboPeriodo(){
         
         tab_citas.setCondicion("ide_saperi="+com_periodo.getValue().toString());
@@ -178,28 +199,33 @@ public class Citas extends Pantalla{
        utilitario.agregarMensaje("NOMBRE", aut_valor.getValorArreglo(1)); //muestra el nombre que selecciono
     }
     public void abrirDialogoCliente() {
-    /*if(com_tipo_documento.getValue() == null){
-            utilitario.agregarMensajeError("ERROR", "Seleccione el Tipo de Documento");
+    if(com_periodo.getValue() == null){
+            utilitario.agregarMensajeError("ERROR", "Seleccione el Periodo");
     return;
      }
-    else {*/
+    else {
             
             crear_cliente_dialogo.dibujar(); 
             tab_cliente.dibujar();
             tab_cliente.limpiar();
             tab_cliente.insertar();
-        // }
+         }
      }
     public void guardarCliente(){
         
-    if (tab_cliente.guardar()) {
+    if (tab_cliente.getValor("IDE_SATIDEN") != null){
+        if (boo_documento_valido){
+             if (tab_cliente.guardar()) {
                 if (utilitario.getConexion().ejecutarListaSql().isEmpty()) {
                     utilitario.agregarMensaje("El Cliente se guardo correctamente", "");
                     
                     //Se guardo correctamente
                     
                 crear_cliente_dialogo.cerrar();
-                tab_citas.getColumna("ide_sacli").actualizarCombo();
+                if(tab_citas.isFilaInsertada()==false){
+                  tab_citas.insertar();
+                }
+                 tab_citas.getColumna("ide_sacli").actualizarCombo();
                 /*
                  if(tab_factura.isFilaInsertada()==false){
                  tab_factura.insertar();	
@@ -214,13 +240,30 @@ public class Citas extends Pantalla{
                     
                 }
             }
+        }
+        else
+        {
+            utilitario.agregarMensajeError("Validación", "El documento de identificación ingresado no es válido, "
+                    + "por favor corrija antes de guardar.");
+        }
+         }
+        else
+        {
+            utilitario.agregarMensajeError("Información", "Debe seleccionar el tipo de documento, "
+                    + "por favor corrija antes de guardar.");
+        }
 }
      //ACTUALIZAR CLIENTE
     public void actualizarCliente() {
-
-        set_actualizar_cliente.getTab_seleccion().setSql(ser_clientes.getCliente());
+     if (com_periodo.getValue() == null){
+         utilitario.agregarMensajeError("ERROR", "Seleccione el Periodo");
+        
+     }
+     else{
+         set_actualizar_cliente.getTab_seleccion().setSql(ser_clientes.getCliente());
         set_actualizar_cliente.getTab_seleccion().ejecutarSql();
         set_actualizar_cliente.dibujar();
+     }
     }
      public void aceptarCliente() {
         String str_seleccionado = set_actualizar_cliente.getValorSeleccionado();
