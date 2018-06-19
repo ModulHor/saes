@@ -21,7 +21,7 @@ public class TipoServicio extends Pantalla{
           tab_tipo_servicios.setTabla("saes_tipo_servicio", "ide_satis", 1);
           tab_tipo_servicios.getColumna("ide_satis").setNombreVisual("CODIGO");
           tab_tipo_servicios.getColumna("nombre_satis").setNombreVisual("NOMBRE T. SERVICIO");
-          tab_tipo_servicios.getColumna("desripcion_satis").setNombreVisual("DESCRIPCION");
+          tab_tipo_servicios.getColumna("descripcion_satis").setNombreVisual("DESCRIPCION");
           tab_tipo_servicios.getColumna("activo_satis").setNombreVisual("ACTIVO");
           tab_tipo_servicios.dibujar();
          
