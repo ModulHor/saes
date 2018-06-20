@@ -61,7 +61,7 @@ public class pre_correo extends Pantalla {
 
         tab_tabla.setId("tab_tabla");
         tab_tabla.setSql("(select mail_usua AS ide, nom_usua as CONTACTO,mail_usua AS CORREO from sis_usuario where mail_usua is not null and ide_empr=" + utilitario.getVariable("IDE_EMPR") + ") "
-                + "UNION (select correo_geper as ide,nom_geper as CONTACTO,correo_geper AS CORREO from gen_persona where correo_geper is not null and ide_empr=" + utilitario.getVariable("IDE_EMPR") + ") order by contacto");
+                + "UNION (select correo_sacli as ide,nombres_sacli ||' '|| apellidos_sacli as CONTACTO, correo_sacli AS CORREO from saes_cliente where correo_sacli is not null) order by contacto");
         tab_tabla.setCampoPrimaria("IDE");
         tab_tabla.getColumna("contacto").setFiltro(true);
         tab_tabla.getColumna("correo").setFiltro(true);
