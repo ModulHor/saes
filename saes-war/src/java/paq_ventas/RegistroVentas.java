@@ -5,6 +5,7 @@ package paq_ventas;
  *
  * @author Andres
  */
+import framework.aplicacion.Fila;
 import framework.aplicacion.TablaGenerica;
 import framework.componentes.AutoCompletar;
 import framework.componentes.Boton;
@@ -20,6 +21,9 @@ import framework.componentes.Reporte;
 import framework.componentes.SeleccionFormatoReporte;
 import framework.componentes.SeleccionTabla;
 import framework.componentes.Tabla;
+import framework.componentes.Texto;
+import framework.componentes.Upload;
+import framework.correo.EnviarCorreo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.event.AjaxBehaviorEvent;
+import org.primefaces.component.editor.Editor;
+import org.primefaces.component.overlaypanel.OverlayPanel;
 import org.primefaces.event.SelectEvent;
 import paq_citas.ejb.ServiciosCitas;
 import paq_ventas.ejb.ServiciosVentas;
@@ -53,6 +59,15 @@ public class RegistroVentas extends Pantalla {
     private boolean boo_documento_valido = true;
     private Reporte rep_reporte=new Reporte();
     private SeleccionFormatoReporte sel_rep=new SeleccionFormatoReporte();  
+    
+    private Upload upl_adjuntos = new Upload();
+    private Tabla tab_tabla = new Tabla();
+    private final OverlayPanel ovp_destinatario = new OverlayPanel();
+    private final Boton bot_destinatario = new Boton();
+    private final Editor edi_texto = new Editor();
+    private final Texto tex_destinatario = new Texto();
+    private final Texto tex_asunto = new Texto();
+    private Dialogo dia_enviar_correo = new Dialogo();
     
     @EJB
     private final ServiciosClientes ser_clientes = (ServiciosClientes) utilitario.instanciarEJB(ServiciosClientes.class);
@@ -289,6 +304,78 @@ public class RegistroVentas extends Pantalla {
          bot_imprimir.setIcon("ui-icon-print");
          bot_imprimir.setMetodo("abrirListaReportes");
          bar_botones.agregarBoton(bot_imprimir);
+         
+         
+         
+         Boton bot_dib_correo = new Boton();
+          bot_dib_correo.setIcon("ui-icon-person");
+          bot_dib_correo.setValue("Enviar Correo");
+          bot_dib_correo.setMetodo("abrirCorreo");
+          bar_botones.agregarBoton(bot_dib_correo);
+         //PANTALLA CREAR CLIENTE
+          dia_enviar_correo.setId("dia_enviar_correo");
+          dia_enviar_correo.setTitle("ENVIAR CORREO");
+          dia_enviar_correo.setWidth("95%");
+          dia_enviar_correo.setHeight("80%");
+        Grupo gru_cuerpo_correo = new Grupo();
+         
+        Grid gri_correo = new Grid();
+        gri_correo.setColumns(2);
+        bot_destinatario.setValue("Para");
+        bot_destinatario.setIcon("ui-icon-person");
+        bot_destinatario.setId("bot_destinatario");
+        bot_destinatario.setType("button");
+
+        Grid gri_contactos = new Grid();
+        gri_contactos.setStyle("display: block;");
+        ovp_destinatario.setId("ovp_destinatario");
+        ovp_destinatario.setWidgetVar("ovp_destinatario");
+        ovp_destinatario.setHideEffect("fade");
+        ovp_destinatario.setShowEffect("fade");
+        ovp_destinatario.setFor("bot_destinatario");
+
+        tab_tabla.setId("tab_tabla");
+        tab_tabla.setSql("(select mail_usua AS ide, nom_usua as CONTACTO,mail_usua AS CORREO from sis_usuario where mail_usua is not null and ide_empr=" + utilitario.getVariable("IDE_EMPR") + ") "
+                + "UNION (select correo_sacli as ide,nombres_sacli ||' '|| apellidos_sacli as CONTACTO, correo_sacli AS CORREO from saes_cliente where correo_sacli is not null) order by contacto");
+        tab_tabla.setCampoPrimaria("IDE");
+        tab_tabla.getColumna("contacto").setFiltro(true);
+        tab_tabla.getColumna("correo").setFiltro(true);
+        tab_tabla.setTipoSeleccion(true);
+        tab_tabla.setRows(15);
+        tab_tabla.dibujar();
+        gri_contactos.getChildren().add(tab_tabla);
+        Boton bot_aceptar = new Boton();
+        bot_aceptar.setValue("Aceptar");
+        bot_aceptar.setMetodo("aceptarContactos");
+        bot_aceptar.setOncomplete("ovp_destinatario.hide();");
+        gri_contactos.setFooter(bot_aceptar);
+        ovp_destinatario.getChildren().add(gri_contactos);
+        agregarComponente(ovp_destinatario);
+        gri_correo.getChildren().add(bot_destinatario);
+        tex_destinatario.setId("tex_destinatario");
+        tex_destinatario.setSize(170);
+        gri_correo.getChildren().add(tex_destinatario);
+        gri_correo.getChildren().add(new Etiqueta("Asunto"));
+        tex_asunto.setId("tex_asunto");
+        tex_asunto.setSize(150);
+        gri_correo.getChildren().add(tex_asunto);
+        gri_correo.getChildren().add(new Etiqueta("Adjuntar"));
+        upl_adjuntos.setMultiple(true);
+        upl_adjuntos.setId("upl_adjuntos");
+        upl_adjuntos.setUpload("upload/correo");
+        gri_correo.getChildren().add(upl_adjuntos);
+        edi_texto.setId("edi_texto");
+        edi_texto.setWidth(Integer.parseInt(utilitario.getVariable("ANCHO")) - 120);
+        gri_correo.setFooter(edi_texto);
+        
+        dia_enviar_correo.getBot_aceptar().setMetodo("enviar");
+        dia_enviar_correo.setDialogo(gri_correo);
+        
+        agregarComponente(dia_enviar_correo);
+        
+        
+        
+        
 
        }
        @Override
@@ -621,7 +708,10 @@ public class RegistroVentas extends Pantalla {
         
         tab_registro_ventas.setCondicion("ide_satido="+com_tipo_documento.getValue().toString());
         tab_registro_ventas.ejecutarSql();
+        tab_detalle.ejecutarValorForanea(tab_registro_ventas.getValorSeleccionado());
         utilitario.addUpdate("tab_registro_ventas");
+        utilitario.addUpdate("tab_detalle");
+        
     }
     public void seleccionoAutocompletar(SelectEvent evt){
        //Cuando selecciona una opcion del autocompletar
@@ -710,6 +800,53 @@ public class RegistroVentas extends Pantalla {
         }
       }
     }
+    
+    
+    public void aceptarContactos() {
+        String str_correos = "";
+        if (tab_tabla.getSeleccionados() != null) {
+            for (Fila fila : tab_tabla.getSeleccionados()) {
+                if (!str_correos.isEmpty()) {
+                    str_correos += ";";
+                }
+                str_correos += fila.getRowKey();
+            }
+        }
+        if (!str_correos.isEmpty()) {
+            str_correos += ";";
+        }
+        String str_valor = "";
+        if (tex_destinatario.getValue() != null) {
+            str_valor = tex_destinatario.getValue().toString();
+        }
+        if (str_valor.isEmpty()) {
+            tex_destinatario.setValue(str_correos);
+        } else {
+            if (!str_valor.endsWith(";")) {
+                str_valor += ";";
+            }
+            tex_destinatario.setValue(str_valor + str_correos);
+        }
+        tab_tabla.setSeleccionados(null);
+        utilitario.addUpdate("tex_destinatario,tab_tabla");
+    }
+
+    public void enviar() {
+        if (tex_destinatario.getValue() != null && tex_asunto.getValue() != null && edi_texto.getValue() != null) {
+            EnviarCorreo correo = new EnviarCorreo();
+            String str_msj = correo.enviar(tex_destinatario.getValue().toString(), tex_asunto.getValue().toString(), edi_texto.getValue().toString(), upl_adjuntos.getArchivos());
+            if (!str_msj.isEmpty()) {
+                utilitario.agregarMensajeInfo("Mensajes generados", str_msj);
+            }
+        } else {
+            utilitario.agregarMensajeInfo("No se puede enviar el correo", "Debe ingresar valores en los campos");
+        }
+    }
+    public void abrirCorreo(){
+        dia_enviar_correo.dibujar();
+    }
+    
+    
     
     public Tabla getTab_registro_ventas() {
         return tab_registro_ventas;
@@ -853,6 +990,30 @@ public class RegistroVentas extends Pantalla {
 
     public void setParametro(Map parametro) {
         this.parametro = parametro;
+    }
+
+    public Upload getUpl_adjuntos() {
+        return upl_adjuntos;
+    }
+
+    public void setUpl_adjuntos(Upload upl_adjuntos) {
+        this.upl_adjuntos = upl_adjuntos;
+    }
+
+    public Tabla getTab_tabla() {
+        return tab_tabla;
+    }
+
+    public void setTab_tabla(Tabla tab_tabla) {
+        this.tab_tabla = tab_tabla;
+    }
+
+    public Dialogo getDia_enviar_correo() {
+        return dia_enviar_correo;
+    }
+
+    public void setDia_enviar_correo(Dialogo dia_enviar_correo) {
+        this.dia_enviar_correo = dia_enviar_correo;
     }
     
 }
