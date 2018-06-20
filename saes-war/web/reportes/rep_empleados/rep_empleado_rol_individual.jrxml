@@ -34,7 +34,7 @@
 	<queryString><![CDATA[select distinct a.ide_saemp, c.ci_dni_saemp, empleado, f.descripcion_sacarg as cargo, d.fecha_saven, e.nombre_saser, a.gana_emplea_sadet, (case when b.suma_descuento  is null then 0.00 else b.suma_descuento end) as descuento from saes_detalle a
 left join
 (select cast((select sum(valor_sades))as numeric(15,2)) as suma_descuento, a.ide_saemp
- from saes_descuento a, saes_empleado b where a.ide_saemp = b.ide_saemp and a.estado_sades = false 
+ from saes_descuento a, saes_empleado b where a.ide_saemp = b.ide_saemp and a.estado_sades = false and fecha_sades BETWEEN cast( $P{pide_fechai} as date)  AND cast($P{pide_fechaf} as date)
  group by a.ide_saemp
 ) b on a.ide_saemp = b.ide_saemp
 left join
@@ -48,7 +48,8 @@ left join
 left join saes_cargo f on c.ide_sacarg = f.ide_sacarg
 where d.fecha_saven BETWEEN cast( $P{pide_fechai} as date)  AND cast($P{pide_fechaf} as date)
 and a.ide_saemp = $P{pide_empleado}
-order by d.fecha_saven]]></queryString>
+order by d.fecha_saven
+]]></queryString>
 
 	<field name="ide_saemp" class="java.lang.Long"/>
 	<field name="ci_dni_saemp" class="java.lang.String"/>
