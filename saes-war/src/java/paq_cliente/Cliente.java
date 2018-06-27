@@ -51,7 +51,8 @@ public class Cliente extends Pantalla{
       tab_clientes.getColumna("ide_sacli").setNombreVisual("CODIGO");
       tab_clientes.getColumna("IDE_SATIDEN").setNombreVisual("TIPO DOCUMENTO");
       tab_clientes.getColumna("IDE_SATIDEN").setCombo(ser_empleados.getDocumentoIdentidad());
-          tab_clientes.getColumna("ci_dni_sacli").setNombreVisual("CEDULA/RUC");
+          tab_clientes.getColumna("ci_dni_sacli").setNombreVisual("IDENTIFICACION");
+          tab_clientes.getColumna("ci_dni_sacli").setUnico(true);
           tab_clientes.getColumna("nombres_sacli").setNombreVisual("NOMBRES");
           tab_clientes.getColumna("apellidos_sacli").setNombreVisual("APELLIDOS");
           tab_clientes.getColumna("direccion_sacli").setNombreVisual("DIRECCION");
