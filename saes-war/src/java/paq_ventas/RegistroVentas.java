@@ -236,7 +236,8 @@ public class RegistroVentas extends Pantalla {
           tab_cliente.getColumna("ide_sacli").setNombreVisual("CODIGO");
           tab_cliente.getColumna("IDE_SATIDEN").setNombreVisual("TIPO DOCUMENTO");
           tab_cliente.getColumna("IDE_SATIDEN").setCombo(ser_empleados.getDocumentoIdentidad());
-          tab_cliente.getColumna("ci_dni_sacli").setNombreVisual("DOCUMENTO IDENTIFICACIÓN");
+          tab_cliente.getColumna("ci_dni_sacli").setNombreVisual("IDENTIFICACIÓN");
+          tab_cliente.getColumna("ci_dni_sacli").setUnico(true);
           tab_cliente.getColumna("nombres_sacli").setNombreVisual("NOMBRES");
           tab_cliente.getColumna("apellidos_sacli").setNombreVisual("APELLIDOS");
           tab_cliente.getColumna("direccion_sacli").setNombreVisual("DIRECCION");
