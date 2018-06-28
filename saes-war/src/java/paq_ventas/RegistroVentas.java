@@ -137,7 +137,7 @@ public class RegistroVentas extends Pantalla {
          tab_registro_ventas.agregarRelacion(tab_detalle);
          tab_registro_ventas.setTipoFormulario(true);
          tab_registro_ventas.getColumna("total_saven").setEtiqueta();
-         tab_registro_ventas.getColumna("total_saven").setEstilo("font-size:15px;font-weight: bold;text-decoration: underline;color:red");
+         tab_registro_ventas.getColumna("total_saven").setEstilo("font-size:20px;font-weight: bold;text-decoration: underline;color:green");
          tab_registro_ventas.getColumna("fecha_saven").setValorDefecto(utilitario.getFechaActual());
          tab_registro_ventas.getColumna("ide_saven").setNombreVisual("CODIGO");
          tab_registro_ventas.getColumna("ide_safopa").setNombreVisual("FORMA DE PAGO");
