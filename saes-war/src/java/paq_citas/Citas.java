@@ -225,6 +225,8 @@ public class Citas extends Pantalla{
                 crear_cliente_dialogo.cerrar();
                 if(tab_citas.isFilaInsertada()==false){
                   tab_citas.insertar();
+                  tab_citas.setValor("ide_saperi", com_periodo.getValue().toString());
+                  utilitario.addUpdateTabla(tab_citas, "ide_saperi", "");
                 }
                  tab_citas.getColumna("ide_sacli").actualizarCombo();
                 /*
@@ -274,6 +276,8 @@ public class Citas extends Pantalla{
             if (tab_citas.isFilaInsertada() == false) {
             //Controla que si ya esta insertada no vuelva a insertar
                 tab_citas.insertar();
+                tab_citas.setValor("ide_saperi", com_periodo.getValue().toString());
+                utilitario.addUpdateTabla(tab_citas, "ide_saperi", "");
             }
 
             tab_citas.setValor("ide_sacli", str_seleccionado);
