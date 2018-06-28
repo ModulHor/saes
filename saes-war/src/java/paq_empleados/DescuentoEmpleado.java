@@ -49,6 +49,7 @@ public class DescuentoEmpleado extends Pantalla {
           tab_descuento_empleado.getColumna("descripcion_sades").setNombreVisual("DESCRIPCION DESC.");
           tab_descuento_empleado.getColumna("fecha_sades").setNombreVisual("FECHA");
           tab_descuento_empleado.getColumna("valor_sades").setNombreVisual("VALOR");
+          tab_descuento_empleado.getColumna("valor_sades").setEstilo("font-size: 14px;font-weight: bold;text-align: right;");
           tab_descuento_empleado.getColumna("estado_sades").setNombreVisual("CANCELADO");
           tab_descuento_empleado.getColumna("ide_sades").setOrden(0);
           tab_descuento_empleado.getColumna("fecha_sades").setOrden(1);
