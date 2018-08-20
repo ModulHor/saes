@@ -3,7 +3,7 @@ package paq_ventas;
 
 /**
  *
- * @author Andres
+ * @author Andres Redroban
  */
 import framework.aplicacion.Fila;
 import framework.aplicacion.TablaGenerica;
