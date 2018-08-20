@@ -47,6 +47,9 @@ public class RegistroVentas extends Pantalla {
     private AutoCompletar aut_valor = new AutoCompletar();
     double dou_total = 0;
     double dou_base_aprobada = 0;
+    double dou_base_grabada = 0;
+    double dou_base_grabada_iva = 0;
+    double dou_iva = 0.12;
     private Combo com_tipo_documento = new Combo(); 
     private SeleccionTabla set_actualizar_cliente = new SeleccionTabla();
     private SeleccionTabla set_crear_cliente = new SeleccionTabla();
@@ -137,7 +140,7 @@ public class RegistroVentas extends Pantalla {
          tab_registro_ventas.agregarRelacion(tab_detalle);
          tab_registro_ventas.setTipoFormulario(true);
          tab_registro_ventas.getColumna("total_saven").setEtiqueta();
-         tab_registro_ventas.getColumna("total_saven").setEstilo("font-size:20px;font-weight: bold;text-decoration: underline;color:green");
+         tab_registro_ventas.getColumna("total_saven").setEstilo("font-size:18px;font-weight: bold;text-decoration: underline;color:green");
          tab_registro_ventas.getColumna("fecha_saven").setValorDefecto(utilitario.getFechaActual());
          tab_registro_ventas.getColumna("ide_saven").setNombreVisual("CODIGO");
          tab_registro_ventas.getColumna("ide_safopa").setNombreVisual("FORMA DE PAGO");
@@ -145,6 +148,10 @@ public class RegistroVentas extends Pantalla {
          tab_registro_ventas.getColumna("ide_sacli").setNombreVisual("CLIENTE");
          tab_registro_ventas.getColumna("fecha_saven").setNombreVisual("FECHA");
          tab_registro_ventas.getColumna("total_saven").setNombreVisual("TOTAL");
+         tab_registro_ventas.getColumna("IVA_FAC_SAVEN").setNombreVisual("TOTAL IVA");
+         tab_registro_ventas.getColumna("IVA_FAC_SAVEN").setEstilo("font-size:18px;font-weight: bold;text-decoration: underline;color:black");
+         tab_registro_ventas.getColumna("IVA_FAC_SAVEN").setEtiqueta();
+         tab_registro_ventas.getColumna("subtotal_fac_saven").setVisible(false);
          tab_registro_ventas.getColumna("ide_saven").setOrden(1);
          tab_registro_ventas.getColumna("numero_secuencial_venta_saven").setOrden(2);
          tab_registro_ventas.getColumna("ide_sacli").setOrden(3);
@@ -373,9 +380,6 @@ public class RegistroVentas extends Pantalla {
         dia_enviar_correo.setDialogo(gri_correo);
         
         agregarComponente(dia_enviar_correo);
-        
-        
-        
         
 
        }
@@ -676,14 +680,33 @@ public class RegistroVentas extends Pantalla {
     public void calcularTotal(){
         dou_total = 0;
         dou_base_aprobada = 0;
+        dou_base_grabada = 0;
+        double dou_valor_iva = 0;
+        double dou_subtotal_fac = 0;
         for (int i = 0; i < tab_detalle.getTotalFilas(); i++) {
             dou_base_aprobada += Double.parseDouble(tab_detalle.getValor(i, "subtotal_sadet"));
         }
         tab_registro_ventas.setValor("total_saven", utilitario.getFormatoNumero(dou_base_aprobada, 3));
-        tab_registro_ventas.modificar(tab_registro_ventas.getFilaActual());//para que haga el update        
+        tab_registro_ventas.modificar(tab_registro_ventas.getFilaActual());//para que haga el update  
+        try {
+            //Obtenemos el valor del total de la factura
+            dou_base_grabada = Double.parseDouble(tab_registro_ventas.getValor("total_saven"));
+        } catch (Exception e) {
+        }
+        dou_valor_iva = dou_base_grabada * dou_iva;
+        tab_registro_ventas.setValor("iva_fac_saven", utilitario.getFormatoNumero(dou_valor_iva, 2));
+        try {
+            //Obtenemos el valor total del iva
+            dou_base_grabada_iva = Double.parseDouble(tab_registro_ventas.getValor("iva_fac_saven"));
+        } catch (Exception e) {
+        }
+        dou_subtotal_fac = dou_base_grabada - dou_base_grabada_iva;
+        tab_registro_ventas.setValor("subtotal_fac_saven", utilitario.getFormatoNumero(dou_subtotal_fac, 2));
+        utilitario.addUpdateTabla(tab_registro_ventas, "iva_fac_saven", "tab_registro_ventas");
+        utilitario.addUpdateTabla(tab_registro_ventas, "subtotal_fac_saven", "tab_registro_ventas");
         utilitario.addUpdate("tab_registro_ventas");
-        tab_detalle.guardar();
         tab_registro_ventas.guardar();
+        tab_detalle.guardar();
         guardarPantalla();
     }
     public void prueba (AjaxBehaviorEvent evt){
