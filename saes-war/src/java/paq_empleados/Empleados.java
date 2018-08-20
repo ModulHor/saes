@@ -92,13 +92,13 @@ public final class Empleados extends Pantalla {
         
         menup.setMenuPanel("FICHA DEL EMPLEADO", "22%");
         menup.setTransient(true);
-        menup.agregarItem ("DATOS PERSONALES", "dibujaDatosPersonal", "ui-icon-contact"); 
+        menup.agregarItem ("DATOS PERSONALES", "dibujaDatosPersonal", "ui-icon-person"); 
         menup.agregarSubMenu("ESTUDIOS");
-        menup.agregarItem ("DATOS ACADEMICOS", "dibujaDatosEducacion", "ui-icon-document");
+        menup.agregarItem ("DATOS ACADEMICOS", "dibujaDatosEducacion", "ui-icon-calculator");
         menup.agregarSubMenu("EXPERIENCIA LABORAL");
-        menup.agregarItem ("DATOS LABORALES", "dibujaDatosExperiencia", "ui-icon-document");
+        menup.agregarItem ("DATOS LABORALES", "dibujaDatosExperiencia", "ui-icon-cart");
         menup.agregarSubMenu("CUENTAS BANCARIAS");
-        menup.agregarItem ("DATOS CUENTAS", "dibujaDatosCuentas", "ui-icon-document");
+        menup.agregarItem ("DATOS CUENTAS BANCARIAS", "dibujaDatosCuentas", "	ui-icon-note");
         menup.agregarSubMenu("DOCUMENTOS EMPLEADO");
         menup.agregarItem ("DOCUMENTACION", "dibujaDocumentosEmpleados", "ui-icon-document");
         agregarComponente(menup);
@@ -255,7 +255,6 @@ public final class Empleados extends Pantalla {
       tab_empleados.getColumna("FOTO_SAEMP").setNombreVisual("FOTO");
       tab_empleados.getColumna("FOTO_SAEMP").setUpload();
       tab_empleados.getColumna("FOTO_SAEMP").setImagen("100", "80");
-      tab_empleados.setHeader("DATOS EMPLEADO");
       tab_empleados.setMostrarNumeroRegistros(false);
     //  tab_empleados.agregarRelacion(tab_discapacidad);
    //   tab_empleados.agregarRelacion(tab_documentos);
@@ -331,7 +330,7 @@ public final class Empleados extends Pantalla {
      // pan_opcion.setHeader("DATOS EMPLEADOS");
      // pan_opcion.getChildren().add(div1);
       agregarComponente(div1); 
-      menup.dibujar(1,"DATOS PERSONALES",div1); 
+      menup.dibujar(1,"fa fa-child", "Datos personales del empleado", div1, false); 
       
     }
     public void dibujaDatosEducacion (){
@@ -369,7 +368,7 @@ public final class Empleados extends Pantalla {
       Division div_division= new Division();
       div_division.dividir1(pat_panel4);//Agrego el Tabulador a una Division
       agregarComponente(div_division);//
-      menup.dibujar(2,"DATOS ACADEMICOS",div_division);
+      menup.dibujar(2,"fa fa-book", "Datos académicos del empleado",div_division, false);
     }
     
     public void dibujaDatosExperiencia(){
@@ -406,7 +405,7 @@ public final class Empleados extends Pantalla {
        Division div_division= new Division();
        div_division.dividir1(pat_panel5);//Agrego el Tabulador a una Division
        agregarComponente(div_division);//
-       menup.dibujar(3,"DATOS LABORALES",div_division);
+       menup.dibujar(3,"fa fa-list-alt", "Experiencia laboral del empleado",div_division, false);
     }
     public void dibujaDatosCuentas(){
         int_opcion=4;
@@ -444,7 +443,7 @@ public final class Empleados extends Pantalla {
        Division div_division= new Division();
        div_division.dividir1(pat_panel6);//Agrego el Tabulador a una Division
        agregarComponente(div_division);//
-       menup.dibujar(4,"DATOS CUENTAS",div_division);
+       menup.dibujar(4,"fa fa-money", "Cuentas bancarias del empleado",div_division, false);
     }
     
     public void dibujaDocumentosEmpleados (){
@@ -472,7 +471,7 @@ public final class Empleados extends Pantalla {
       Division div_division= new Division();
       div_division.dividir1(pat_panel7);//Agrego el Tabulador a una Division
       agregarComponente(div_division);//
-      menup.dibujar(5,"DOCUMENTACION",div_division);
+      menup.dibujar(5,"fa fa-clipboard", "Documentos personales del empleado",div_division, false);
     }
     
     public void empleado(SelectEvent evt){
