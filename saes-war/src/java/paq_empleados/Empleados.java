@@ -35,6 +35,7 @@ import paq_empleados.ejb.ServiciosEmpleados;
 import sistema.aplicacion.Pantalla;
 
 public final class Empleados extends Pantalla {
+    private Tabla tab_tabla = new Tabla();
     private Tabla tab_empleados =  new Tabla();
     private Tabla tab_discapacidad =  new Tabla();
     private Tabla tab_documentos =  new Tabla();
@@ -92,15 +93,16 @@ public final class Empleados extends Pantalla {
         
         menup.setMenuPanel("FICHA DEL EMPLEADO", "22%");
         menup.setTransient(true);
-        menup.agregarItem ("DATOS PERSONALES", "dibujaDatosPersonal", "ui-icon-person"); 
+        menup.agregarItem ("Listado de Empleados", "dibujarDashBoard", "ui-icon-home"); 
+        menup.agregarItem ("Datos Personales", "dibujaDatosPersonal", "ui-icon-person"); 
         menup.agregarSubMenu("ESTUDIOS");
-        menup.agregarItem ("DATOS ACADEMICOS", "dibujaDatosEducacion", "ui-icon-calculator");
+        menup.agregarItem ("Datos Acadèmicos", "dibujaDatosEducacion", "ui-icon-calculator");
         menup.agregarSubMenu("EXPERIENCIA LABORAL");
-        menup.agregarItem ("DATOS LABORALES", "dibujaDatosExperiencia", "ui-icon-cart");
+        menup.agregarItem ("Datos Laborales", "dibujaDatosExperiencia", "ui-icon-cart");
         menup.agregarSubMenu("CUENTAS BANCARIAS");
-        menup.agregarItem ("DATOS CUENTAS BANCARIAS", "dibujaDatosCuentas", "	ui-icon-note");
+        menup.agregarItem ("Datos Cuentas Bancarias", "dibujaDatosCuentas", "	ui-icon-note");
         menup.agregarSubMenu("DOCUMENTOS EMPLEADO");
-        menup.agregarItem ("DOCUMENTACION", "dibujaDocumentosEmpleados", "ui-icon-document");
+        menup.agregarItem ("Documentaciòn", "dibujaDocumentosEmpleados", "ui-icon-document");
         agregarComponente(menup);
         
         //cargarMenu();    
@@ -120,7 +122,7 @@ public final class Empleados extends Pantalla {
 	div_division.getDivision1().setCollapsible(true);
 	div_division.getDivision1().setHeader("MENU DE OPCIONES");
 	agregarComponente(div_division);*/
-       dibujaDatosPersonal();
+       dibujarDashBoard();
       }
     @Override
     public void abrirListaReportes() {
@@ -167,12 +169,17 @@ public final class Empleados extends Pantalla {
             dibujaDocumentosEmpleados();  
             //utilitario.addUpdate("tab_alumno_direccion,tab_tabulador");
         }
+        if(menup.getOpcion()==6){
+            
+            dibujarDashBoard();  
+            //utilitario.addUpdate("tab_alumno_direccion,tab_tabulador");
+        }
       }
     else {
            utilitario.agregarMensajeInfo("Seleccionar un Empleado", "Debe seleccionar un Empleado");
         } 
     }
-
+    
     
     public void validar_documento (AjaxBehaviorEvent evt)
     {
@@ -493,12 +500,43 @@ public final class Empleados extends Pantalla {
             case 5:
                 dibujaDocumentosEmpleados();
             break;
+            case 6:
+                dibujarDashBoard();
+            break;
             default:
                 dibujaDatosPersonal();
         }
       }
     }
-    
+    public void dibujarDashBoard(){
+        int_opcion = 6;
+        tab_tabla = new Tabla();
+        tab_tabla.setId("tab_tabla");
+        tab_tabla.setNumeroTabla(6);
+        tab_tabla.setSql(ser_empleados.getSqlListaEmpleados());
+        tab_tabla.setLectura(true);
+        tab_tabla.setCampoPrimaria("ide_saemp");
+        tab_tabla.setRows(20);
+        tab_tabla.getColumna("ide_saemp").setVisible(false);
+        tab_tabla.getColumna("ci_dni_saemp").setNombreVisual("IDENTIDICACIÓN");
+        tab_tabla.getColumna("ci_dni_saemp").setFiltroContenido();
+        tab_tabla.getColumna("apellidos_saemp").setNombreVisual("APELLIDOS");
+        tab_tabla.getColumna("apellidos_saemp").setFiltro(true);
+        tab_tabla.getColumna("nombres_saemp").setNombreVisual("NOMBRES");
+        tab_tabla.getColumna("nombres_saemp").setFiltro(true);
+        tab_tabla.getColumna("descripcion_sacarg").setNombreVisual("CARGO");
+        tab_tabla.getColumna("telefono_saemp").setNombreVisual("TELÈFONO");
+        tab_tabla.getColumna("celular_saemp").setNombreVisual("CELULAR");
+        tab_tabla.getColumna("correo_saemp").setNombreVisual("CORREO");
+        tab_tabla.getColumna("direccion_saemp").setNombreVisual("DIRECCIÒN");
+
+        tab_tabla.dibujar();
+
+        PanelTabla pat_panel = new PanelTabla();
+        pat_panel.setPanelTabla(tab_tabla);
+
+        menup.dibujar(6, "LISTADO DE CLIENTES", pat_panel);
+    }
     public void asignarDiscapacidad(AjaxBehaviorEvent evt){
         tab_discapacidad.modificar(evt);
         TablaGenerica ti_discapacidad = utilitario.consultar("select ide_satidi, descripcion_satidi from saes_tipo_discapacidad where ide_satidi = 6");
@@ -828,6 +866,14 @@ public final class Empleados extends Pantalla {
 
     public void setTab_referencias_personales(Tabla tab_referencias_personales) {
         this.tab_referencias_personales = tab_referencias_personales;
+    }
+
+    public Tabla getTab_tabla() {
+        return tab_tabla;
+    }
+
+    public void setTab_tabla(Tabla tab_tabla) {
+        this.tab_tabla = tab_tabla;
     }
     
 }
