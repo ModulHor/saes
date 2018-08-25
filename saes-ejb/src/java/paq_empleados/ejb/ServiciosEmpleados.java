@@ -108,4 +108,11 @@ public class ServiciosEmpleados {
         sql="select * from saes_parentezco_emple order by ide_saparem";
         return sql;
     }
+    public String getSqlListaEmpleados() {
+        String sql="";
+        sql="select ide_saemp, ci_dni_saemp, apellidos_saemp, nombres_saemp, b.descripcion_sacarg, telefono_saemp, celular_saemp, correo_saemp, direccion_saemp\n" +
+            "from saes_empleado a\n" +
+            "left join saes_cargo b on a.ide_sacarg = b.ide_sacarg order by apellidos_saemp";
+        return sql;
+    }
 }
