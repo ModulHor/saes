@@ -8,6 +8,7 @@ package paq_cliente;
 import framework.componentes.AutoCompletar;
 import framework.componentes.Division;
 import framework.componentes.Etiqueta;
+import framework.componentes.MenuPanel;
 import framework.componentes.PanelTabla;
 import framework.componentes.Reporte;
 import framework.componentes.SeleccionFormatoReporte;
@@ -27,6 +28,8 @@ public class Cliente extends Pantalla{
    private SeleccionFormatoReporte sel_rep = new SeleccionFormatoReporte();
    private Map map_parametros = new HashMap();
    private AutoCompletar aut_cliente = new AutoCompletar();
+   private final MenuPanel mep_menu = new MenuPanel();
+   private Tabla tab_tabla = new Tabla();
    
     @EJB
     private final ServiciosEmpleados ser_empleados = (ServiciosEmpleados) utilitario.instanciarEJB(ServiciosEmpleados.class);
@@ -42,9 +45,76 @@ public class Cliente extends Pantalla{
         bar_botones.agregarComponente(new Etiqueta("Cliente :"));
         bar_botones.agregarComponente(aut_cliente);
         
-      tab_clientes.setId("tab_clientes");   //identificador
-      tab_clientes.setTabla("saes_cliente", "ide_sacli", 1);
-      tab_clientes.setCondicion("ide_sacli=-1");
+        mep_menu.setMenuPanel("OPCIONES CLIENTE", "22%");
+        mep_menu.agregarItem("Listado de Clientes", "dibujarDashBoard", "ui-icon-home");//15
+        mep_menu.agregarItem("Datos Clientes", "dibujarCliente", "ui-icon-person");
+      
+        rep_reporte.setId("rep_reporte");
+        agregarComponente(rep_reporte);
+        bar_botones.agregarReporte();
+        
+        sel_rep.setId("sel_rep");
+        agregarComponente(sel_rep);
+        
+        agregarComponente(mep_menu);      
+        dibujarDashBoard();
+    }
+    public void seleccionoAutocompletar(){
+        
+        /*tab_clientes.setCondicion("ide_sacli="+aut_cliente.getValor());
+        tab_clientes.ejecutarSql();
+        utilitario.addUpdate("tab_clientes");*/
+        if (aut_cliente != null) {
+             switch (mep_menu.getOpcion()) {
+                case 1:
+                    dibujarCliente();
+                    break;
+                    default:
+                    dibujarCliente();
+        }
+        }else {
+            limpiar();
+        
+     
+    }
+}
+    public void limpiar() {
+        aut_cliente.limpiar();
+        mep_menu.limpiar();
+        dibujarDashBoard();
+    }
+    public void dibujarDashBoard() {
+
+        tab_tabla = new Tabla();
+        tab_tabla.setId("tab_tabla");
+        tab_tabla.setNumeroTabla(1);
+        tab_tabla.setSql(ser_clientes.getSqlCliente());
+        tab_tabla.setLectura(true);
+        tab_tabla.setCampoPrimaria("ide_sacli");
+        tab_tabla.setRows(20);
+        tab_tabla.getColumna("ide_sacli").setVisible(false);
+        tab_tabla.getColumna("ci_dni_sacli").setNombreVisual("IDENTIDICACIÓN");
+        tab_tabla.getColumna("ci_dni_sacli").setFiltroContenido();
+        tab_tabla.getColumna("apellidos_sacli").setNombreVisual("APELLIDOS");
+        tab_tabla.getColumna("apellidos_sacli").setFiltro(true);
+        tab_tabla.getColumna("nombres_sacli").setNombreVisual("NOMBRES");
+        tab_tabla.getColumna("nombres_sacli").setFiltro(true);
+        tab_tabla.getColumna("telefono_sacli").setNombreVisual("TELÈFONO");
+        tab_tabla.getColumna("celular_sacli").setNombreVisual("CELULAR");
+        tab_tabla.getColumna("correo_sacli").setNombreVisual("CORREO");
+        tab_tabla.getColumna("direccion_sacli").setNombreVisual("DIRECCIÒN");
+
+        tab_tabla.dibujar();
+
+        PanelTabla pat_panel = new PanelTabla();
+        pat_panel.setPanelTabla(tab_tabla);
+
+        mep_menu.dibujar(1, "LISTADO DE CLIENTES", pat_panel);
+    }
+    public void dibujarCliente(){
+        tab_clientes.setId("tab_clientes");   //identificador
+      tab_clientes.setTabla("saes_cliente", "ide_sacli", 2);
+      tab_clientes.setCondicion("ide_sacli=" + aut_cliente.getValor());
       tab_clientes.setTipoFormulario(true);
       tab_clientes.getGrid().setColumns(2);
       
@@ -89,55 +159,8 @@ public class Cliente extends Pantalla{
       div_clientes.setId("div_clientes");
       div_clientes.dividir1(pat_clientes);
       agregarComponente(div_clientes);
-      
-        rep_reporte.setId("rep_reporte");
-        agregarComponente(rep_reporte);
-        bar_botones.agregarReporte();
-        
-        sel_rep.setId("sel_rep");
-        agregarComponente(sel_rep);
+      mep_menu.dibujar(2, "fa fa-user", "Datos generales del cliente.", div_clientes, false);
     }
-    public void seleccionoAutocompletar(){
-        
-        tab_clientes.setCondicion("ide_sacli="+aut_cliente.getValor());
-        tab_clientes.ejecutarSql();
-        utilitario.addUpdate("tab_clientes");
-        
-     
-    }
-    /* public boolean validar() {
-        if (tab_tabla1.getValor("ide_getid") == null || tab_tabla1.getValor("ide_getid").isEmpty()) {
-            utilitario.agregarMensajeError("Error no puede guardar", "Debe seleccionar su tipo de identificación");
-            return false;
-        }
-        if (tab_tabla1.getValor("identificac_geper") == null || tab_tabla1.getValor("identificac_geper").isEmpty()) {
-            utilitario.agregarMensajeError("Error no puede guardar", "Debe ingresar su identificacion");
-            return false;
-        }
-        if (tab_tabla1.getValor("ide_getid").equals(utilitario.getVariable("p_gen_tipo_identificacion_cedula"))) {
-            if (utilitario.validarCedula(tab_tabla1.getValor("identificac_geper"))) {
-            } else {
-                utilitario.agregarMensajeError("Error no puede guardar", "Debe ingresar el numero de cedula valida");
-                return false;
-            }
-        }
-        if (tab_tabla1.getValor("ide_getid").equals(utilitario.getVariable("p_gen_tipo_identificacion_ruc"))) {
-            if (utilitario.validarRUC(tab_tabla1.getValor("identificac_geper"))) {
-            } else {
-                utilitario.agregarMensajeError("Error no puede guardar", "Debe ingresar el numero de ruc valido");
-                return false;
-            }
-        }
-//        if (tab_tabla1.getValor("nivel_geper") == null || tab_tabla1.getValor("nivel_geper").isEmpty()) {
-//            utilitario.agregarMensajeError("Error no puede guardar", "Debe seleccionar el nivel");
-//            return false;
-//        }
-//        if (tab_tabla1.getValor("ide_cntco") == null || tab_tabla1.getValor("ide_cntco").isEmpty()) {
-//            utilitario.agregarMensajeError("Error no puede guardar", "Debe seleccionar el tipo de contribuyente");
-//            return false;
-//        }
-        return true;
-    }*/
     @Override
     public void insertar() {
         tab_clientes.insertar();
@@ -192,6 +215,14 @@ public class Cliente extends Pantalla{
 
     public void setAut_cliente(AutoCompletar aut_cliente) {
         this.aut_cliente = aut_cliente;
+    }
+
+    public Tabla getTab_tabla() {
+        return tab_tabla;
+    }
+
+    public void setTab_tabla(Tabla tab_tabla) {
+        this.tab_tabla = tab_tabla;
     }
        
 }
