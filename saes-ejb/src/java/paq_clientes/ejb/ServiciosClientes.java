@@ -23,9 +23,14 @@ public class ServiciosClientes {
         sql="SELECT ide_sacli, ci_dni_sacli, apellidos_sacli, nombres_sacli FROM saes_cliente order by apellidos_sacli";
         return sql;
     }
-    public String getSqlCliente() {
+    public String getSqlCliente(String tipo, String cliente) {
         String sql="";
-        sql="select ide_sacli, ci_dni_sacli, apellidos_sacli, nombres_sacli, telefono_sacli, celular_sacli, correo_sacli, direccion_sacli from saes_cliente order by apellidos_sacli";
+        sql="select ide_sacli, ci_dni_sacli, apellidos_sacli, nombres_sacli, telefono_sacli, celular_sacli, correo_sacli, direccion_sacli from saes_cliente ";
+        if (tipo.equals("2")){
+            sql+="where ide_sacli = "+cliente+"";
+        }
+            sql+="order by apellidos_sacli";
+        
         return sql;
     }
 }
