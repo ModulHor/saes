@@ -146,22 +146,28 @@ public class RegistroVentas extends Pantalla {
          tab_registro_ventas.getColumna("ide_safopa").setNombreVisual("FORMA DE PAGO");
          tab_registro_ventas.getColumna("numero_secuencial_venta_saven").setNombreVisual("Nº SECUENCIAL");
          tab_registro_ventas.getColumna("ide_sacli").setNombreVisual("CLIENTE");
+         tab_registro_ventas.getColumna("ide_sacli").setMetodoChange("datosCliente");
+         tab_registro_ventas.getColumna("direccion_clie_saven").setNombreVisual("DIRECCIÒN");
+         tab_registro_ventas.getColumna("telefono_clie_saven").setNombreVisual("TELÈFONO");
          tab_registro_ventas.getColumna("fecha_saven").setNombreVisual("FECHA");
          tab_registro_ventas.getColumna("total_saven").setNombreVisual("TOTAL");
          tab_registro_ventas.getColumna("IVA_FAC_SAVEN").setNombreVisual("TOTAL IVA");
+         tab_registro_ventas.getColumna("observacion_saven").setNombreVisual("OBSERVACIÒNES");
          tab_registro_ventas.getColumna("IVA_FAC_SAVEN").setEstilo("font-size:18px;font-weight: bold;text-decoration: underline;color:black");
          tab_registro_ventas.getColumna("IVA_FAC_SAVEN").setEtiqueta();
          tab_registro_ventas.getColumna("subtotal_fac_saven").setVisible(false);
          tab_registro_ventas.getColumna("ide_saven").setOrden(1);
          tab_registro_ventas.getColumna("numero_secuencial_venta_saven").setOrden(2);
          tab_registro_ventas.getColumna("ide_sacli").setOrden(3);
-         tab_registro_ventas.getColumna("ide_safopa").setOrden(4);
-         tab_registro_ventas.getColumna("fecha_saven").setOrden(5);
-         tab_registro_ventas.getColumna("total_saven").setOrden(6);
+         tab_registro_ventas.getColumna("direccion_clie_saven").setOrden(4);
+         tab_registro_ventas.getColumna("telefono_clie_saven").setOrden(5);
+         tab_registro_ventas.getColumna("ide_safopa").setOrden(6);
+         tab_registro_ventas.getColumna("fecha_saven").setOrden(7);
+         tab_registro_ventas.getColumna("total_saven").setOrden(8);
          tab_registro_ventas.getColumna("numero_secuencial_venta_saven").setEstilo("font-size: 14px;font-weight: bold;text-align: right;");
          tab_registro_ventas.getColumna("numero_secuencial_venta_saven").setLongitud(10);
          tab_registro_ventas.getColumna("numero_secuencial_venta_saven").setMascara("99999999");
-         tab_registro_ventas.getGrid().setColumns(2);
+         tab_registro_ventas.getGrid().setColumns(4);
          tab_registro_ventas.dibujar();
                   
           PanelTabla pat_ventas = new PanelTabla();
@@ -383,7 +389,22 @@ public class RegistroVentas extends Pantalla {
         
 
        }
-       @Override
+       
+    public void datosCliente(SelectEvent evt)
+     {
+         
+         TablaGenerica tab_datocliente = utilitario.consultar(ser_clientes.getSqlCliente("2", tab_registro_ventas.getValor("ide_sacli")));
+         tab_registro_ventas.setValor("telefono_clie_saven",tab_datocliente.getValor("telefono_sacli"));
+         tab_registro_ventas.setValor("direccion_clie_saven",tab_datocliente.getValor("direccion_sacli"));
+         utilitario.addUpdateTabla(tab_registro_ventas, "direccion_clie_saven,telefono_clie_saven","");
+         
+         
+         
+    
+     
+    }   
+       
+    @Override
     public void insertar() {
         if(com_tipo_documento.getValue() == null){
             utilitario.agregarMensajeError("ERROR", "Seleccione el Tipo de Documento");
@@ -537,8 +558,10 @@ public class RegistroVentas extends Pantalla {
                  
                 //CARGA EL CLIENTE Q SE INSERTO
                 tab_registro_ventas.setValor("ide_sacli", tab_cliente.getValor("ide_sacli"));
+                tab_registro_ventas.setValor("telefono_clie_saven", tab_cliente.getValor("telefono_sacli"));
+                tab_registro_ventas.setValor("direccion_clie_saven", tab_cliente.getValor("direccion_sacli"));
                 //tab_factura.setValor("ide_fadaf",  aut_factura.getValor());
-                System.out.println(" valor del cliente al crear " + tab_cliente.getValor("ide_sacli"));
+              //  System.out.println(" valor del cliente al crear " + tab_cliente.getValor("ide_sacli"));
                 utilitario.addUpdate("tab_registro_ventas");
                 tab_registro_ventas.modificar(tab_registro_ventas.getFilaActual());
                     
@@ -757,7 +780,8 @@ public class RegistroVentas extends Pantalla {
     }
         public void aceptarCliente() {
         String str_seleccionado = set_actualizar_cliente.getValorSeleccionado();
-        System.out.println("Entrar al aceptar" + str_seleccionado);
+        TablaGenerica tab_datocliente = utilitario.consultar(ser_clientes.getSqlCliente("2", str_seleccionado));   
+      //  System.out.println("Entrar al aceptar" + str_seleccionado);
         if (str_seleccionado != null) {
             //Inserto los clientes seleccionados en la tabla  
             if (tab_registro_ventas.isFilaInsertada() == false) {
@@ -777,6 +801,8 @@ public class RegistroVentas extends Pantalla {
 
             }
             tab_registro_ventas.setValor("ide_sacli", str_seleccionado);
+            tab_registro_ventas.setValor("direccion_clie_saven", tab_datocliente.getValor("direccion_sacli"));
+            tab_registro_ventas.setValor("telefono_clie_saven", tab_datocliente.getValor("telefono_sacli"));
             tab_registro_ventas.modificar(tab_registro_ventas.getFilaActual());//para que haga el update
             tab_registro_ventas.setValor("ide_satido", com_tipo_documento.getValue().toString());
             set_actualizar_cliente.cerrar();
