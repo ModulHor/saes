@@ -88,7 +88,7 @@ public class Cliente extends Pantalla{
         tab_tabla = new Tabla();
         tab_tabla.setId("tab_tabla");
         tab_tabla.setNumeroTabla(1);
-        tab_tabla.setSql(ser_clientes.getSqlCliente());
+        tab_tabla.setSql(ser_clientes.getSqlCliente("1", ""));
         tab_tabla.setLectura(true);
         tab_tabla.setCampoPrimaria("ide_sacli");
         tab_tabla.setRows(20);

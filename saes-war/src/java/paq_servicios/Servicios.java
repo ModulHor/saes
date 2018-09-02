@@ -15,6 +15,7 @@ import sistema.aplicacion.Pantalla;
 
 public class Servicios extends Pantalla {
     private Tabla tab_servicios =  new Tabla();
+    private Tabla tab_tipo_servicios =  new Tabla();
     private Tabla tab_precio_servicio = new Tabla();
     String v_cuarenta = "40";
     String v_cincuenta = "50";
@@ -23,11 +24,27 @@ public class Servicios extends Pantalla {
     private final ServiciosEstetica ser_servicios = (ServiciosEstetica) utilitario.instanciarEJB(ServiciosEstetica.class);
     
       public Servicios (){
+          
+          tab_tipo_servicios.setId("tab_tipo_servicios");   //identificador
+          tab_tipo_servicios.setTabla("saes_tipo_servicio", "ide_satis", 1);
+          tab_tipo_servicios.getColumna("ide_satis").setNombreVisual("CODIGO");
+          tab_tipo_servicios.getColumna("nombre_satis").setNombreVisual("NOMBRE T. SERVICIO");
+          tab_tipo_servicios.getColumna("descripcion_satis").setNombreVisual("DESCRIPCION");
+          tab_tipo_servicios.getColumna("activo_satis").setNombreVisual("ACTIVO");
+          tab_tipo_servicios.getColumna("activo_satis").setValorDefecto("TRUE");
+          tab_tipo_servicios.agregarRelacion(tab_servicios);
+          tab_tipo_servicios.dibujar();
+         
+          PanelTabla pat_tipo_servicios = new PanelTabla();
+          pat_tipo_servicios.setId("pat_tipo_servicios");
+          pat_tipo_servicios.setPanelTabla(tab_tipo_servicios);
+          
           tab_servicios.setId("tab_servicios");   //identificador
-          tab_servicios.setTabla("saes_servicio", "ide_saser", 1);
+          tab_servicios.setTabla("saes_servicio", "ide_saser", 2);
           tab_servicios.getColumna("ide_satis").setCombo(ser_servicios.getTipoServicio("true"));
           tab_servicios.getColumna("ide_saser").setNombreVisual("CODIGO");
           tab_servicios.getColumna("ide_satis").setNombreVisual("TIPO SERVICIO");
+          tab_servicios.getColumna("ide_satis").setVisible(false);
           tab_servicios.getColumna("nombre_saser").setNombreVisual("NOMBRE SERVICIO");
           tab_servicios.getColumna("descripcion_saser").setNombreVisual("OBSERVACIONES");
           tab_servicios.getColumna("fecha_saser").setNombreVisual("FECHA REGISTRO");
@@ -44,6 +61,7 @@ public class Servicios extends Pantalla {
           tab_servicios.getColumna("precio_inicial_saser").setOrden(5);
           tab_servicios.getColumna("porcentaje_saser").setOrden(6);
           tab_servicios.getColumna("activo_saser").setOrden(7);
+          tab_servicios.getColumna("activo_saser").setValorDefecto("TRUE");
           //tab_servicios.agregarRelacion(tab_precio_servicio);
           tab_servicios.dibujar();
          
@@ -51,17 +69,10 @@ public class Servicios extends Pantalla {
           pat_servicios.setId("pat_servicios");
           pat_servicios.setPanelTabla(tab_servicios);
           
-        /*  tab_precio_servicio.setId("tab_precio_servicio");   //identificador
-          tab_precio_servicio.setTabla("saes_precio", "ide_sapre", 2);
-          tab_precio_servicio.dibujar();
-          
-          PanelTabla pat_precio_servicio = new PanelTabla();
-          pat_precio_servicio.setId("pat_precio_servicio");
-          pat_precio_servicio.setPanelTabla(tab_precio_servicio);*/
           
           Division div_servicios = new Division();
           div_servicios.setId("div_tipo_descuento");
-          div_servicios.dividir1(pat_servicios);
+          div_servicios.dividir2(pat_tipo_servicios, pat_servicios, "50%", "H");
           agregarComponente(div_servicios);
       }
       @Override
@@ -123,6 +134,14 @@ public class Servicios extends Pantalla {
 
     public void setTab_precio_servicio(Tabla tab_precio_servicio) {
         this.tab_precio_servicio = tab_precio_servicio;
+    }
+
+    public Tabla getTab_tipo_servicios() {
+        return tab_tipo_servicios;
+    }
+
+    public void setTab_tipo_servicios(Tabla tab_tipo_servicios) {
+        this.tab_tipo_servicios = tab_tipo_servicios;
     }
        
 }
