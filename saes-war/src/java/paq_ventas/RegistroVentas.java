@@ -71,6 +71,8 @@ public class RegistroVentas extends Pantalla {
     private final Texto tex_destinatario = new Texto();
     private final Texto tex_asunto = new Texto();
     private Dialogo dia_enviar_correo = new Dialogo();
+    private Texto text_efectivo = new Texto();
+    private Texto text_vuelto = new Texto();
     
     @EJB
     private final ServiciosClientes ser_clientes = (ServiciosClientes) utilitario.instanciarEJB(ServiciosClientes.class);
@@ -127,7 +129,6 @@ public class RegistroVentas extends Pantalla {
         dia_periodo.setDialogo(gru_cuerpo);
         agregarComponente(dia_periodo);
           
-         tab_registro_ventas.setHeader("FACTURACION");
          tab_registro_ventas.setId("tab_registro_ventas");   //identificador
          tab_registro_ventas.setTabla("saes_venta", "ide_saven", 1);
          tab_registro_ventas.setCondicion("ide_satido=-1");
@@ -211,10 +212,45 @@ public class RegistroVentas extends Pantalla {
           pat_detalle.setId("pat_detalle");
           pat_detalle.setPanelTabla(tab_detalle);
           
+          Grid grid_matriz = new Grid();
+          grid_matriz.setId("grid_matriz");
+          grid_matriz.setColumns(2);
+         // grid_matriz.setStyle("width: 95%; height: 50%;text-align: left; padding-right: 10%;float: right;overflow: hidden;");
+          
+        //  grid_matriz.getChildren().add(new Etiqueta("<strong>EFECTIVO: </strong>"));
+          Etiqueta eti_efectivo = new Etiqueta();
+          eti_efectivo.setValue("<strong>EFECTIVO: </strong>");
+         // eti_efectivo.setStyle("font-size: 14px;font-weight: bold;text-align: right;width:110px");
+          eti_efectivo.setStyle("font-size: 16px;font-weight: bold; text-align:right ;position:absolute;top:7px; left:770px;");
+          
+          text_efectivo.setId("text_efectivo");
+          text_efectivo.setSize(10);
+          text_efectivo.setStyle("font-size: 15px;font-weight: bold; text-align:right ;position:absolute;top:2px; left:885px;");
+          text_efectivo.setValue("0");
+          text_efectivo.setMetodoChange("calculaCambio");
+          
+          Etiqueta eti_cambio = new Etiqueta();
+          eti_cambio.setValue("<strong>CAMBIO: </strong>");
+         // eti_efectivo.setStyle("font-size: 14px;font-weight: bold;text-align: right;width:110px");
+          eti_cambio.setStyle("font-size: 16px;font-weight: bold; text-align:right ;position:absolute;top:7px; left:1060px;");
+          
+          text_vuelto.setId("text_vuelto");
+          text_vuelto.setSize(10);
+          text_vuelto.setStyle("font-size: 15px;font-weight: bold; text-align:right ;position:absolute;top:2px; left:1175px;");
+          text_vuelto.setValue("0,00");
+          text_vuelto.setMetodoChange("calculaCambio");
+          
+          
+          grid_matriz.getChildren().add(eti_efectivo);
+          grid_matriz.getChildren().add(text_efectivo);
+          grid_matriz.getChildren().add(eti_cambio);
+          grid_matriz.getChildren().add(text_vuelto);
+          
           Division div_ventas = new Division();
           div_ventas.setId("div_ventas");
-          div_ventas.dividir2(pat_ventas, pat_detalle, "50%", "H");
+          div_ventas.dividir3(pat_ventas, pat_detalle, grid_matriz, "54%", "36","H");
           agregarComponente(div_ventas);      
+          gru_pantalla.getChildren().add(div_ventas);
           
           Boton bot_actualizar_cliente = new Boton();
           bot_actualizar_cliente.setIcon("ui-icon-person");
@@ -397,11 +433,7 @@ public class RegistroVentas extends Pantalla {
          tab_registro_ventas.setValor("telefono_clie_saven",tab_datocliente.getValor("telefono_sacli"));
          tab_registro_ventas.setValor("direccion_clie_saven",tab_datocliente.getValor("direccion_sacli"));
          utilitario.addUpdateTabla(tab_registro_ventas, "direccion_clie_saven,telefono_clie_saven","");
-         
-         
-         
-    
-     
+
     }   
        
     @Override
@@ -699,6 +731,25 @@ public class RegistroVentas extends Pantalla {
     public void calcularDetalle(AjaxBehaviorEvent evt){
         tab_detalle.modificar(evt);
         calcular(); 
+    }
+    
+    public void calculaCambio(){
+        double valor_efectivo = 0;
+        double dou_vuelto = 0;
+        
+        valor_efectivo = Double.parseDouble((String) text_efectivo.getValue());
+       // System.out.print("valor es este "+ valor_efectivo);
+        try {
+            //Obtenemos el valor del total de la factura
+            dou_base_grabada = Double.parseDouble(tab_registro_ventas.getValor("total_saven"));
+         //   System.out.print("total factura "+ dou_base_grabada);
+        } catch (Exception e) {
+        }
+        dou_vuelto = valor_efectivo - dou_base_grabada;
+        System.out.print("total "+ dou_vuelto);
+         text_vuelto.setValue(utilitario.getFormatoNumero(dou_vuelto));
+         
+         utilitario.addUpdate("grid_matriz");
     }
     public void calcularTotal(){
         dou_total = 0;
