@@ -21,10 +21,15 @@ import framework.componentes.Reporte;
 import framework.componentes.SeleccionFormatoReporte;
 import framework.componentes.Tabla;
 import framework.componentes.Tabulador;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.component.panel.Panel;
@@ -61,6 +66,7 @@ public final class Empleados extends Pantalla {
     String t_banco ="";
     String t_cooperativa ="";
     
+    
     @EJB
     private final ServiciosEmpleados ser_empleados = (ServiciosEmpleados) utilitario.instanciarEJB(ServiciosEmpleados.class);
     
@@ -76,8 +82,8 @@ public final class Empleados extends Pantalla {
        
         bar_botones.agregarComponente(new Etiqueta("Empleado: "));
         bar_botones.agregarComponente(aut_empleado);  
-
-      
+        
+        
         rep_reporte.setId("rep_reporte");
         agregarComponente(rep_reporte);
         bar_botones.agregarReporte();
@@ -138,6 +144,7 @@ public final class Empleados extends Pantalla {
            sel_rep.dibujar();
           }
     }
+    
      public void seleccionoAutocompletar(SelectEvent evt){
          
       aut_empleado.onSelect(evt);
