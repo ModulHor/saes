@@ -25,7 +25,7 @@ public class ServiciosEmpleados {
     }
         public String getEmpleado(String activo) {
         String sql="";
-        sql="select ide_saemp, nombres_saemp, apellidos_saemp from saes_empleado where activo_saemp in ("+activo+") ";
+        sql="select ide_saemp, apellidos_saemp||' '||nombres_saemp as nombres_empleado, ci_dni_saemp  from saes_empleado where activo_saemp in ("+activo+") order by nombres_empleado ";
         return sql;
     }
         public String getEmpleadosGeneral() {
