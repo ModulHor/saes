@@ -65,6 +65,7 @@ public class ReportesCitas extends Pantalla{
        sel_fechas.setId("sec_rango_fechas");
        sel_fechas.getBot_aceptar().setMetodo("aceptarReporte");
        sel_fechas.setFechaActual();
+       
        agregarComponente(sel_fechas);
        
        //Diseño de fondo reporte asistencia//
