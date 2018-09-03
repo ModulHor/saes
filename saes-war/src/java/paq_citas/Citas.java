@@ -17,10 +17,14 @@ import framework.componentes.Division;
 import framework.componentes.Etiqueta;
 import framework.componentes.Grid;
 import framework.componentes.PanelTabla;
+import framework.componentes.SeleccionCalendario;
 import framework.componentes.SeleccionTabla;
 import framework.componentes.Tabla;
+import framework.componentes.VisualizarPDF;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.event.SelectEvent;
@@ -39,6 +43,9 @@ public class Citas extends Pantalla{
     private Tabla tab_cliente = new Tabla();
     private AutoCompletar aut_valor = new AutoCompletar();
     private boolean boo_documento_valido = true;
+    private SeleccionCalendario sel_fechas= new SeleccionCalendario();
+    private VisualizarPDF vipdf_comprobante = new VisualizarPDF();   
+    private Map map_parametros = new HashMap();//Parametros del reporte
     
     @EJB
     private final ServiciosCitas ser_citas = (ServiciosCitas) utilitario.instanciarEJB(ServiciosCitas.class);
@@ -51,8 +58,9 @@ public class Citas extends Pantalla{
     
      @EJB
     private final ServiciosEstetica ser_servicios = (ServiciosEstetica) utilitario.instanciarEJB(ServiciosEstetica.class);
-    public Citas(){
-        
+   
+     public Citas(){
+       // bar_botones.agregarCalendario();
          Etiqueta eti_periodo = new Etiqueta("PERIODO: ");
          bar_botones.agregarComponente(eti_periodo);
           
@@ -169,8 +177,50 @@ public class Citas extends Pantalla{
           bot_crearCliente.setIcon("ui-icon-person");
           bot_crearCliente.setMetodo("abrirDialogoCliente");
           bar_botones.agregarBoton(bot_crearCliente);
+          
+          
+          
+          vipdf_comprobante.setId("vipdf_comprobante");
+          vipdf_comprobante.setTitle("CITAS AGENDADAS");
+          agregarComponente(vipdf_comprobante);
+       
+          //BOTON VER CITAS
+          Boton bot_vercitas = new Boton();
+          bot_vercitas.setValue("Ver Citas Agendadas");
+          bot_vercitas.setIcon("ui-icon-search");
+          bot_vercitas.setMetodo("abrirFechas");
+          bar_botones.agregarBoton(bot_vercitas);
+          
+          sel_fechas.setId("sel_fechas");
+          sel_fechas.getBot_aceptar().setMetodo("generarPDF");
+          sel_fechas.setFechaActual();
+          agregarComponente(sel_fechas);
+    }
+        public void abrirFechas(){
+
+        if (com_periodo.getValue() != null){
+        sel_fechas.dibujar();
+        } else{
+            utilitario.agregarMensajeError("Debe seleccionar el periodo", "");
+        }
     }
     
+    public void generarPDF() {
+        if (com_periodo.getValue() != null) {
+                        ///////////AQUI ABRE EL REPORTE
+                        //Map parametros = new HashMap();
+                        map_parametros.put("pide_periodo",Integer.parseInt(com_periodo.getValue() + ""));
+                        map_parametros.put("pide_fechai",sel_fechas.getFecha1String() );
+                        map_parametros.put("pide_fechaf", sel_fechas.getFecha2String());
+
+                        //System.out.println(" " + str_titulos);
+                        vipdf_comprobante.setVisualizarPDF("rep_citas/rep_citas_agendadas.jasper", map_parametros);
+                        vipdf_comprobante.dibujar();
+                        utilitario.addUpdate("vipdf_comprobante");
+        } else {
+            utilitario.agregarMensajeInfo("Seleccione el periodo", "");
+        }
+    }
     public void validar_documento (AjaxBehaviorEvent evt)
     {
         tab_cliente.modificar(evt);
@@ -371,6 +421,30 @@ public class Citas extends Pantalla{
 
     public void setAut_valor(AutoCompletar aut_valor) {
         this.aut_valor = aut_valor;
+    }
+
+    public SeleccionCalendario getSel_fechas() {
+        return sel_fechas;
+    }
+
+    public void setSel_fechas(SeleccionCalendario sel_fechas) {
+        this.sel_fechas = sel_fechas;
+    }
+
+    public VisualizarPDF getVipdf_comprobante() {
+        return vipdf_comprobante;
+    }
+
+    public void setVipdf_comprobante(VisualizarPDF vipdf_comprobante) {
+        this.vipdf_comprobante = vipdf_comprobante;
+    }
+
+    public Map getMap_parametros() {
+        return map_parametros;
+    }
+
+    public void setMap_parametros(Map map_parametros) {
+        this.map_parametros = map_parametros;
     }
     
 }
