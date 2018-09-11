@@ -40,7 +40,7 @@ public class DescuentoEmpleado extends Pantalla {
           tab_descuento_empleado.setId("tab_descuento_empleado");   //identificador
           tab_descuento_empleado.setTabla("saes_descuento", "ide_sades", 1);
           tab_descuento_empleado.setCondicion("ide_saperi=-1");
-          tab_descuento_empleado.getColumna("ide_satid").setCombo(ser_empleados.getTipoDescuento("true"));
+          tab_descuento_empleado.getColumna("ide_satid").setCombo("saes_tipo_descuento", "ide_satid", "nombre_satid", "activo_satid = true");
           tab_descuento_empleado.getColumna("ide_saemp").setCombo(ser_empleados.getEmpleado("true"));
           tab_descuento_empleado.getColumna("ide_saemp").setAutoCompletar();
           tab_descuento_empleado.getColumna("ide_saperi").setVisible(false);
