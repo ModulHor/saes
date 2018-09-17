@@ -33,4 +33,14 @@ public class ServiciosVentas {
         sql="SELECT ide_safopa, descripcion_safopa from saes_forma_pago order by descripcion_safopa ";
         return sql;
     }
+    public String getSqlFacturas(String tipo_documento) {
+        String sql="";
+        sql="select ide_saven, ide_satido, numero_secuencial_venta_saven, b.descripcion_safopa, fecha_saven, apellidos_sacli||' '||nombres_sacli as nombre_cliente, iva_fac_saven, total_saven, observacion_saven\n" +
+            "from saes_venta a\n" +
+            "left join saes_forma_pago b on a.ide_safopa = b.ide_safopa\n" +
+            "left join saes_cliente c on a.ide_sacli = c.ide_sacli\n" +
+            "where ide_satido = "+tipo_documento+"\n" +
+            "order by numero_secuencial_venta_saven desc, fecha_saven desc";
+        return sql;
+    }
 }
