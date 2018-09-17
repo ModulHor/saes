@@ -103,7 +103,7 @@ public class RegistroVentas extends Pantalla {
           
          com_tipo_documento.setId("com_tipo_documento");
          com_tipo_documento.setCombo(ser_ventas.getTipoDocumento());
-         com_tipo_documento.setMetodo("filtroComboDocumento");
+      //   com_tipo_documento.setMetodo("filtroComboDocumento");
          bar_botones.agregarComponente(com_tipo_documento);
                  
          
@@ -367,14 +367,14 @@ public class RegistroVentas extends Pantalla {
           dia_enviar_correo.setTitle("ENVIAR CORREO");
           dia_enviar_correo.setWidth("95%");
           dia_enviar_correo.setHeight("80%");
-        Grupo gru_cuerpo_correo = new Grupo();
-         
-        Grid gri_correo = new Grid();
-        gri_correo.setColumns(2);
-        bot_destinatario.setValue("Para");
-        bot_destinatario.setIcon("ui-icon-person");
-        bot_destinatario.setId("bot_destinatario");
-        bot_destinatario.setType("button");
+        
+          Grupo gru_cuerpo_correo = new Grupo();  
+          Grid gri_correo = new Grid();
+          gri_correo.setColumns(2);
+          bot_destinatario.setValue("Para");
+          bot_destinatario.setIcon("ui-icon-person");
+          bot_destinatario.setId("bot_destinatario");
+          bot_destinatario.setType("button");
 
         Grid gri_contactos = new Grid();
         gri_contactos.setStyle("display: block;");
@@ -782,14 +782,6 @@ public class RegistroVentas extends Pantalla {
         tab_registro_ventas.guardar();
         tab_detalle.guardar();
         guardarPantalla();
-    }
-    public void prueba (AjaxBehaviorEvent evt){
-        /*tab_adquisiones.modificar(evt);
-        String valor=tab_adquisiones.getValor("IDE_ADEMAP");
-        TablaGenerica empleado = utilitario.consultar("select ide_ademap,FECHA_INGRE from ADQ_EMPLEADO_APRUEBA where IDE_ADEMAP="+valor);
-        tab_adquisiones.setValor("uso_adcomp", empleado.getValor("FECHA_INGRE"));
-        utilitario.addUpdate("tab_adquisiones");*/
-        
     }
     public void asignarSubtotal(){
         String ide_saser = tab_detalle.getValor("ide_saser");
