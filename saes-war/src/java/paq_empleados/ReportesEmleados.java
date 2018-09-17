@@ -86,18 +86,18 @@ public class ReportesEmleados extends Pantalla{
         panOpcion.setId("pan_opcion");
         panOpcion.setTransient(true);
         panOpcion.setHeader("REPORTES EMPLEADOS");
-        panOpcion.setStyle("font-size:10px;color:black;text-align:center;");
+        panOpcion.setStyle("font-size:18px;color:black;text-align:center;");
         
-         Grid grid_pant = new Grid();
+        Grid grid_pant = new Grid();
         grid_pant.setColumns(1);
-        grid_pant.setStyle("text-align:center;position:absolute;top:210px;left:535px;");
+        grid_pant.setStyle("text-align:center;position:absolute;top:150px;left:515px;");
         Etiqueta eti_encab = new Etiqueta();
         grid_pant.getChildren().add(ImaReportes);
         Boton bot_imprimir = new Boton();
         bot_imprimir.setValue("Imprimir Reporte");
         bot_imprimir.setIcon("ui-icon-print");
         bot_imprimir.setMetodo("abrirListaReportes");
-        bar_botones.agregarBoton(bot_imprimir);
+        //bar_botones.agregarBoton(bot_imprimir);
         grid_pant.getChildren().add(bot_imprimir);
         agregarComponente(grid_pant);
         panOpcion.getChildren().add(grid_pant);
