@@ -27,6 +27,7 @@ public class Servicios extends Pantalla {
           
           tab_tipo_servicios.setId("tab_tipo_servicios");   //identificador
           tab_tipo_servicios.setTabla("saes_tipo_servicio", "ide_satis", 1);
+          tab_tipo_servicios.setHeader("TIPOS DE SERVICIOS");
           tab_tipo_servicios.getColumna("ide_satis").setNombreVisual("CODIGO");
           tab_tipo_servicios.getColumna("nombre_satis").setNombreVisual("NOMBRE T. SERVICIO");
           tab_tipo_servicios.getColumna("descripcion_satis").setNombreVisual("DESCRIPCION");
@@ -41,6 +42,7 @@ public class Servicios extends Pantalla {
           
           tab_servicios.setId("tab_servicios");   //identificador
           tab_servicios.setTabla("saes_servicio", "ide_saser", 2);
+          tab_servicios.setHeader("SERVICIOS");
           tab_servicios.getColumna("ide_satis").setCombo(ser_servicios.getTipoServicio("true"));
           tab_servicios.getColumna("ide_saser").setNombreVisual("CODIGO");
           tab_servicios.getColumna("ide_satis").setNombreVisual("TIPO SERVICIO");
